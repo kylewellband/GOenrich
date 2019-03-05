@@ -4,7 +4,3 @@
 !/00scripts
 !/01data
 !/02results
-/01data/*
-/02results/*
-!/01data/.gitignore
-!/02results/.gitignore
