@@ -1,5 +1,12 @@
 #!/usr/bin/env Rscript
 
+args <- commandArgs(T)
+
+if (length(args) != 3) {
+    message(paste0("USAGE: RunTopGO.R <geneid2GO mapping file> <reference gene set> <test gene set>"))
+    stop("You are missing an input file.")
+}
+
 if( suppressMessages(!require(topGO)) ) {
     if (!requireNamespace("BiocManager"))
         install.packages("BiocManager")
@@ -7,18 +14,9 @@ if( suppressMessages(!require(topGO)) ) {
     suppressMessages(library(topGO))
 }
 
-args <- commandArgs(T)
-
-if (length(args) != 4) {
-    message(paste0("USAGE: RunTopGO.R <geneid2GO mapping file> <reference gene set> <test gene set> <outfile base>"))
-    stop("You are missing an input file.")
-}
-
-base_dir <- getwd()
-
-gene2GO_file <- paste0(base_dir, "/", args[1])
-refset_file <- paste0(base_dir, "/", args[2])
-testset_file <- paste0(base_dir, "/", args[3])
+gene2GO_file <- args[1]
+refset_file <- args[2]
+testset_file <- args[3]
 
 testset <- read.table(testset_file, stringsAsFactors = F)[,1]
 refset <- read.table(refset_file, stringsAsFactors = F)[,1]
@@ -50,7 +48,7 @@ GOdata <- new("topGOdata",
 result_Fisher <- runTest(GOdata, algorithm = "weight01", statistic = "fisher")
 
 write.table(GenTable(GOdata, result_Fisher, topNodes = length(result_Fisher@score)), 
-            paste0(base_dir, "/", args[4], ".txt"), 
+            paste0("02results/", sub("(.*)?\\..*$", "\\1", basename(args[3])), "_GOenrich.txt"), 
             quote = F, row.names = F, sep = "\t")
 
 #printGraph(GOdata, result_Fisher, firstSigNodes = 5, fn.prefix = paste0(base_dir, args[4]), pdfSW = T, useInfo = "np")

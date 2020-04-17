@@ -21,8 +21,10 @@ The script requires 3 input files:
 
 Example:
 ```
-00scripts/RunTopGO.R 01data/geneID_2_GO_map.txt 01data/ref_gene_set.txt 01data/test_gene_set.txt 02results/GO_enrich_results
+00scripts/RunTopGO.R 01data/geneID_2_GO_map.txt 01data/ref_gene_set.txt 01data/test_gene_set.txt
 ```
+
+Results are saved into the `02results` directory using the name of the test gene set input file
 
 ### Disclaimer
 
